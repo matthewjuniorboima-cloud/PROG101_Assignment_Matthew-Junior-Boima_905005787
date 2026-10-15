@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="2.11">
+    <attributes>
+        <attribute name="name" value=""/>
+        <attribute name="authors" value="MATTHEW JUNIOR BOIMA"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2026-10-15 02:32:38 pm"/>
+        <attribute name="created" value="TUFUVEhFVyBKVU5JT1IgQk9JTUE7REVTS1RPUC01VDQ2N0g4OzIwMjYtMTAtMTU7MTE6MTA6MjcgYW07Mzc2NA=="/>
+        <attribute name="edited" value="TUFUVEhFVyBKVU5JT1IgQk9JTUE7REVTS1RPUC01VDQ2N0g4OzIwMjYtMTAtMTU7MDI6MzI6MzcgcG07NjszODk3"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="choice" type="Integer" array="False" size=""/>
+            <declare name="running" type="Boolean" array="False" size=""/>
+            <declare name="result" type="Integer" array="False" size=""/>
+            <assign variable="running" expression="true"/>
+            <while expression="running">
+                <output expression="&quot;1 Register 2 Call next 3 Show queue 4 Report 5 Exit&quot;" newline="True"/>
+                <input variable="choice"/>
+                <if expression="choice == 1">
+                    <then>
+                        <assign variable="result" expression="registerPatient()"/>
+                    </then>
+                    <else>
+                        <if expression="choice == 2">
+                            <then>
+                                <output expression="&quot;Calling next patient&quot;" newline="True"/>
+                            </then>
+                            <else>
+                                <if expression="choice == 3">
+                                    <then>
+                                        <output expression="&quot;Displaying queue&quot;" newline="True"/>
+                                    </then>
+                                    <else>
+                                        <if expression="choice == 4">
+                                            <then>
+                                                <output expression="&quot;Daily report&quot;" newline="True"/>
+                                            </then>
+                                            <else>
+                                                <if expression="choice == 5">
+                                                    <then>
+                                                        <assign variable="running" expression="false"/>
+                                                    </then>
+                                                    <else>
+                                                        <output expression="&quot;Invalid choice&quot;" newline="True"/>
+                                                    </else>
+                                                </if>
+                                            </else>
+                                        </if>
+                                    </else>
+                                </if>
+                            </else>
+                        </if>
+                    </else>
+                </if>
+            </while>
+            <output expression="&quot;System closed. Stay safe.&quot;" newline="True"/>
+        </body>
+    </function>
+    <function name="calculatePriority" type="Integer" variable="priority">
+        <parameters>
+            <parameter name="age" type="Integer" array="False"/>
+            <parameter name="temp" type="Real" array="False"/>
+            <parameter name="hasDangerSign" type="Boolean" array="False"/>
+            <parameter name="isPregnant" type="Boolean" array="False"/>
+        </parameters>
+        <body>
+            <declare name="priority" type="Integer" array="False" size=""/>
+            <declare name="isEmergency" type="Boolean" array="False" size=""/>
+            <declare name="isVulnerable" type="Boolean" array="False" size=""/>
+            <assign variable="isEmergency" expression="hasDangerSign or temp &gt;= 39.5 or (age &lt; 5 and temp &gt;= 38.0)"/>
+            <assign variable="isVulnerable" expression="isPregnant or age &lt; 5 or age &gt;= 65"/>
+            <if expression="isEmergency">
+                <then>
+                    <assign variable="priority" expression="1"/>
+                </then>
+                <else>
+                    <if expression="isVulnerable or temp &gt;= 38.0">
+                        <then>
+                            <assign variable="priority" expression="2"/>
+                        </then>
+                        <else>
+                            <assign variable="priority" expression="3"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="registerPatient" type="Integer" variable="priority">
+        <parameters/>
+        <body>
+            <declare name="name" type="String" array="False" size=""/>
+            <declare name="age" type="Integer" array="False" size=""/>
+            <declare name="temp" type="Real" array="False" size=""/>
+            <declare name="answer" type="String" array="False" size=""/>
+            <declare name="hasDangerSign" type="Boolean" array="False" size=""/>
+            <declare name="isPregnant" type="Boolean" array="False" size=""/>
+            <declare name="priority" type="Integer" array="False" size=""/>
+            <output expression="&quot;Enter patient name&quot;" newline="True"/>
+            <input variable="name"/>
+            <assign variable="age" expression="-1"/>
+            <while expression="age &lt; 0 or age &gt; 120">
+                <output expression="&quot;Enter age (0-120)&quot;" newline="True"/>
+                <input variable="age"/>
+                <if expression="age &lt; 0 or age &gt; 120">
+                    <then>
+                        <output expression="&quot;Invalid age. Try again.&quot;" newline="True"/>
+                    </then>
+                    <else/>
+                </if>
+            </while>
+            <assign variable="temp" expression="0"/>
+            <while expression="temp &lt; 34 or temp &gt; 43">
+                <output expression="&quot;Enter temperature&quot;" newline="True"/>
+                <input variable="temp"/>
+                <if expression="temp &lt; 34 or temp &gt; 43">
+                    <then>
+                        <output expression="&quot;Invalid temperature. Try again.&quot;" newline="True"/>
+                    </then>
+                    <else/>
+                </if>
+            </while>
+            <output expression="&quot;Danger sign? (Y/N)&quot;" newline="True"/>
+            <input variable="answer"/>
+            <assign variable="hasDangerSign" expression="answer == &quot;Y&quot;"/>
+            <output expression="&quot;Pregnant? (Y/N)&quot;" newline="True"/>
+            <input variable="answer"/>
+            <assign variable="isPregnant" expression="answer == &quot;Y&quot;"/>
+            <assign variable="priority" expression="calculatePriority(age, temp, hasDangerSign, isPregnant)"/>
+            <output expression="&quot;Priority:&quot; &amp; priority" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>
